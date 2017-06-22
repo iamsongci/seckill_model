@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.topone.dao.MemberDAO">
+	<resultMap id="MemberMap" type="Member">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="passwd" column="passwd" />
+		<result property="sellerState" column="seller_state" />
+		<result property="shopName" column="shop_name" />
+		<result property="balance" column="balance" />
+		<result property="address" column="address" />
+		<result property="status" column="status" />
+	</resultMap>
+
+	<sql id="basisSql">
+		id,name,seller_state,shop_name,balance,address,status
+	</sql>
+	<select id="login" resultType="Integer">
+		select id from member where
+		name=#{id} and passwd=#{password} and status=1
+	</select>
+	<select id="getById" resultMap="MemberMap">
+		select
+		<include refid="basisSql" />
+		from member where id=#{id}
+	</select>
+	<insert id="add">
+		insert into member
+		(name,passwd,seller_state,shop_name,balance,address)values
+		(#{name},#{passwd},#{sellerState},#{shopName},#{balance},#{address})
+	</insert>
+
+</mapper>

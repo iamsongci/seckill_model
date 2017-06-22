@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.topone.dao.OrderDAO">
+	<resultMap id="OrderMap" type="Order">
+		<id property="id" column="id" />
+		<result property="commodityId" column="commodity_id" />
+		<result property="quantum" column="quantum" />
+		<result property="sellerId" column="seller_id" />
+		<result property="buyersId" column="buyers_id" />
+		<result property="createTime" column="create_time" />
+		<result property="orderStats" column="order_status" />
+		<result property="sum" column="sum" />
+		<result property="addess" column="address" />
+		<result property="status" column="status" />
+		<association property="seller" column="" javaType="Member"
+			select="" />
+	</resultMap>
+
+	<sql id="basisSql">
+		id,commodity_id,quantum,seller_id,buyers_id,create_time,order_status,
+		sum,address,status
+	</sql>
+	<select id="countByBuyId" resultType="Integer">
+		select count(id) from
+		orders where buyers_id=#{buyId}
+	</select>
+	<select id="getAll" resultMap="OrderMap">
+		select
+		<include refid="basisSql" />
+		from orders where buyers_id=#{buyId} limit #{a},#{b}
+	</select>
+	<insert id="add">
+		insert into orders
+		(commodity_id,quantum,seller_id,buyers_id,
+		sum,address)values
+		(#{commodityId},#{quantum},#{sellerId},#{buyersId},#{sum},#{addess})
+	</insert>
+	<update id="update">
+		update orders set order_status=#{orderStats}
+		where
+		id=#{id}
+	</update>
+	<select id="countByShellerId" resultType="Integer">
+		select count(id) from
+		orders where seller_id=#{sellerId}
+	</select>
+	<select id="getAllBySheller" resultMap="OrderMap">
+		select
+		<include refid="basisSql" />
+		from orders where seller_id=#{sellerId} limit #{a},#{b}
+	</select>
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 声明需要暴露的服务接口 -->
+	<dubbo:service interface="com.topone.model.MemberModel"
+		ref="memberModel" retries="0" timeout="100000"/>
+	<dubbo:service interface="com.topone.model.CommodityModel"
+		ref="commodityModel" retries="0" timeout="100000"/>
+	<dubbo:service interface="com.topone.model.DescriptionModel"
+		ref="descriptionModel" retries="0" timeout="100000"/>
+	<dubbo:service interface="com.topone.model.OrderModel"
+		ref="orderModel" retries="0" timeout="100000"/>
+	<dubbo:service interface="com.topone.model.ShoppingModel"
+		ref="shoppingModel" retries="0" timeout="100000"/>
+	<dubbo:service interface="com.topone.model.StockModel"
+		ref="stockModel" retries="0" timeout="100000"/>
+ 
+    	<!-- 和本地bean一样实现服务-->
+	<bean id="memberModel" class="com.topone.mode.impl.MemberModelImpl" />
+	
+	<bean id="commodityModel" class="com.topone.mode.impl.CommodityModelImpl" />
+	
+	<bean id="descriptionModel" class="com.topone.mode.impl.DescriptionModelImpl" />
+	
+	<bean id="orderModel" class="com.topone.mode.impl.OrderModelImpl" />
+	
+	<bean id="shoppingModel" class="com.topone.mode.impl.ShoppingModelImpl" />
+	
+	<bean id="stockModel" class="com.topone.mode.impl.StockModelImpl" />
+    
+
+</beans>

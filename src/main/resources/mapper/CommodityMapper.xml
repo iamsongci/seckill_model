@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.topone.dao.CommodityDAO">
+	<resultMap id="CommodityMap" type="Commodity">
+		<id property="id" column="id" />
+		<result property="sellerId" column="seller_id" />
+		<result property="picture" column="picture" />
+		<result property="name" column="name" />
+		<result property="starttime" column="starttime" />
+		<result property="postage" column="postage" />
+		<result property="price" column="price" />
+		<result property="status" column="status" />
+	</resultMap>
+
+	<sql id="basisSql">
+		id,seller_id,picture,name,starttime,postage,price,status
+	</sql>
+	<select id="getByType" resultMap="CommodityMap">
+		select
+		<include refid="basisSql" />
+		from commodity where 1=1
+		<choose>
+			<when test="type == 0">
+				and starttime is not null
+			</when>
+			<when test="type == 1 ">
+				and starttime is null
+			</when>
+			<otherwise>
+
+			</otherwise>
+		</choose>
+		limit #{a},#{b}
+	</select>
+	<select id="getById" resultMap="CommodityMap">
+		select
+		<include refid="basisSql" />
+		from commodity where id=#{id}
+	</select>
+	<insert id="add">
+		insert into commodity
+		(seller_id,picture,name,starttime,postage,price)values
+		(#{sellerId},#{picture},#{name},#{starttime},#{postage},#{price})
+	</insert>
+
+	<select id="getByAll" resultMap="CommodityMap">
+		select
+		<include refid="basisSql" />
+		from commodity limit #{a},#{b}
+	</select>
+	<update id="update">
+		update  commodity set id=#{id},
+		<!-- TODO 动态语句 -->
+		<if test="picture !=null">
+			and picture=#{picture},
+		</if>
+		<if test="name != null">
+			and name=#{name},
+		</if>
+		<if test="starttime!=null">
+			and starttime=#{starttime},
+		</if>
+		<if test="postage !=null">
+			and postage=#{postage},
+		</if>
+		<if test="price !=null">
+			and price=#{price},
+		</if>
+		where id=#{id}
+	</update>
+	<select id="getBySellerId" resultMap="CommodityMap">
+		select
+		<include refid="basisSql" />
+		from commodity where seller_id=#{sellerId}
+	</select>
+	
+	
+	<select id="countByType" resultType="Integer">
+		select
+		count(id)
+		from commodity where 
+		<if test="type = 0">
+		starttime is null
+		</if>
+		<if test="type = 1">
+		starttime is not null
+		</if>
+	</select>
+
+</mapper>

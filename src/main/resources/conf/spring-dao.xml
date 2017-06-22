@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
+	<!-- 配置整合mybatis -->
+	<!-- 数据库相关参数 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	<!-- 数据库连接池 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<!-- 配置连接池属性 -->
+		<property name="driverClass" value="${driver}" />
+		<property name="jdbcUrl" value="${url}" />
+		<property name="user" value="${user}" />
+		<property name="password" value="${password}" />
+		<!-- <property name="driverClass" value="com.mysql.jdbc.Driver" /> <property 
+			name="jdbcUrl" value="jdbc:mysql://localhost:3306/seckill?useUnicode=true&amp;characterEncoding=utf-8" 
+			/> <property name="user" value="root" /> <property name="password" value="" 
+			/> -->
+		<!-- 私有属性 -->
+		<!-- 最大数据库连接数 -->
+		<property name="maxPoolSize" value="30" />
+		<!-- 最小连接数 -->
+		<property name="minPoolSize" value="5" />
+		<!-- 关闭连接时，不关闭Commit -->
+		<property name="autoCommitOnClose" value="false" />
+		<!-- 连接满后等待时间 -->
+		<property name="checkoutTimeout" value="10000" />
+		<!-- 数据库连接尝试次数 -->
+		<property name="acquireRetryAttempts" value="2" />
+	</bean>
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 注入数据库连接池 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 配置mybatis全局配置文件 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<!-- 扫描实体包 -->
+		<property name="typeAliasesPackage" value="com.topone.entry" />
+		<!-- 扫描sql配置文件：mapper的xml -->
+		<property name="mapperLocations" value="classpath:mapper/*.xml" />
+	</bean>
+	<!-- 配置扫描DAO接口包 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 注入SqlSessionFactory --><!-- sqlSessionFactoryBeanName为防止提前初始化sql工厂 -->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		<!-- 扫描dao -->
+		<property name="basePackage" value="com.topone.dao" />
+	</bean>
+</beans>

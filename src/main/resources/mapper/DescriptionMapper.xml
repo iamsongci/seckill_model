@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.topone.dao.DescriptionDAO">
+	<resultMap id="DescriptionMap" type="Description">
+		<id property="commodityId" column="commodity_id" />
+		<result property="discription" column="description" />
+	</resultMap>
+	<select id="getById" resultMap="DescriptionMap">
+		select
+		commodity_id,description
+		from description where commodity_id=#{id}
+	</select>
+	<insert id="add">
+		insert ignore into description
+		(commodity_id,description)values
+		(#{commodityId},#{discription})
+	</insert>
+	<update id="update">
+		update description set
+		description =#{discription}
+		where commodity_id=#{commodityId}
+	</update>
+
+</mapper>
