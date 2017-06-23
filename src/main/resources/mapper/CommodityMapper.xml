@@ -14,11 +14,12 @@
 		<result property="price" column="price" />
 		<result property="status" column="status" />
 	</resultMap>
-
+	<cache eviction="LRU" flushInterval="60000"
+		type="com.topone.cache.CommodityRedisCache" />
 	<sql id="basisSql">
 		id,seller_id,picture,name,starttime,postage,price,status
 	</sql>
-	<select id="getByType" resultMap="CommodityMap">
+	<select id="getByType" resultMap="CommodityMap" useCache="false">
 		select
 		<include refid="basisSql" />
 		from commodity where 1=1
@@ -35,12 +36,13 @@
 		</choose>
 		limit #{a},#{b}
 	</select>
+
 	<select id="getById" resultMap="CommodityMap">
 		select
 		<include refid="basisSql" />
 		from commodity where id=#{id}
 	</select>
-	<insert id="add">
+	<insert id="add" >
 		insert into commodity
 		(seller_id,picture,name,starttime,postage,price)values
 		(#{sellerId},#{picture},#{name},#{starttime},#{postage},#{price})
@@ -52,7 +54,7 @@
 		from commodity limit #{a},#{b}
 	</select>
 	<update id="update">
-		update  commodity set id=#{id},
+		update commodity set id=#{id},
 		<!-- TODO 动态语句 -->
 		<if test="picture !=null">
 			and picture=#{picture},
@@ -71,22 +73,22 @@
 		</if>
 		where id=#{id}
 	</update>
-	<select id="getBySellerId" resultMap="CommodityMap">
+	<select id="getBySellerId" resultMap="CommodityMap" useCache="false">
 		select
 		<include refid="basisSql" />
 		from commodity where seller_id=#{sellerId}
 	</select>
-	
-	
+
+
 	<select id="countByType" resultType="Integer">
 		select
 		count(id)
-		from commodity where 
+		from commodity where
 		<if test="type = 0">
-		starttime is null
+			starttime is null
 		</if>
 		<if test="type = 1">
-		starttime is not null
+			starttime is not null
 		</if>
 	</select>
 
