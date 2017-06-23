@@ -9,5 +9,6 @@ public class Run {
 		context.start();
 		System.out.println("服务开启！");
 		System.in.read();
+		
 	}
 }

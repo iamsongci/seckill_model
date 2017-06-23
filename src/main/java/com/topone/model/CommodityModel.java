@@ -11,7 +11,7 @@ public interface CommodityModel {
 	 * @param c
 	 * @return
 	 */
-	Integer add(Commodity c);
+	int add(Commodity c);
 
 	/**
 	 * 更新商品详情

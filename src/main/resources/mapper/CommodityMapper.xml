@@ -42,12 +42,12 @@
 		<include refid="basisSql" />
 		from commodity where id=#{id}
 	</select>
-	<insert id="add" >
-		insert into commodity
+	<insert id="add" useGeneratedKeys="true">
+		insert into
+		commodity
 		(seller_id,picture,name,starttime,postage,price)values
 		(#{sellerId},#{picture},#{name},#{starttime},#{postage},#{price})
 	</insert>
-
 	<select id="getByAll" resultMap="CommodityMap">
 		select
 		<include refid="basisSql" />

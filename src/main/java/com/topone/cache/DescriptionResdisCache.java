@@ -11,13 +11,12 @@ import com.topone.util.SerializaUtil;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 
-public class DescriptionResdisCache implements Cache{
-	private static Logger logger = LoggerFactory.getLogger(DescriptionResdisCache	.class);
+public class DescriptionResdisCache implements Cache {
+	private static Logger logger = LoggerFactory.getLogger(DescriptionResdisCache.class);
 	private Jedis redisClient = createReids();
 	/** The ReadWriteLock. */
-	
+	private static JedisPool pool=new JedisPool("45.76.216.116");
 	private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
 	private String id;
@@ -37,21 +36,23 @@ public class DescriptionResdisCache implements Cache{
 
 	@Override
 	public int getSize() {
+		int i = Integer.valueOf(redisClient.dbSize().toString());
+		return i;
 
-		return Integer.valueOf(redisClient.dbSize().toString());
 	}
 
 	@Override
 	public void putObject(Object key, Object value) {
 		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>putObject:" + key + "=" + value);
-		System.out.println("set");
-		redisClient.set(SerializaUtil.serialize(this.getClass().getName()+key.toString()), SerializaUtil.serialize(value));
+		redisClient.set(SerializaUtil.serialize(this.getClass().getName() + key.toString()),
+				SerializaUtil.serialize(value));
+		redisClient.expire(SerializaUtil.serialize(this.getClass().getName() + key.toString()), 70000);
 	}
 
 	@Override
 	public Object getObject(Object key) {
-		Object value = SerializaUtil.unserialize(redisClient.get(SerializaUtil.serialize(this.getClass().getName()+key.toString())));
-		System.out.println("get");
+		Object value = SerializaUtil
+				.unserialize(redisClient.get(SerializaUtil.serialize(this.getClass().getName() + key.toString())));
 		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>getObject:" + key + "=" + value);
 		return value;
 	}
@@ -60,10 +61,10 @@ public class DescriptionResdisCache implements Cache{
 	public Object removeObject(Object key) {
 		return redisClient.expire(SerializaUtil.serialize(key.toString()), 0);
 	}
-
 	@Override
 	public void clear() {
 		redisClient.flushDB();
+
 	}
 
 	@Override
@@ -72,7 +73,6 @@ public class DescriptionResdisCache implements Cache{
 	}
 
 	protected static Jedis createReids() {
-		JedisPool pool = new JedisPool(new JedisPoolConfig(), "45.76.216.116");
 		return pool.getResource();
 	}
 

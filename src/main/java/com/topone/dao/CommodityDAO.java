@@ -3,12 +3,14 @@ package com.topone.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.SelectKey;
 
 import com.topone.entry.Commodity;
 
 public interface CommodityDAO {
 
-	Integer add(Commodity c);
+	@SelectKey(statement="call next value for TestSequence", keyProperty="id",keyColumn="id" ,before=false, resultType=int.class)
+	int add(Commodity c);
 
 	Integer update(Commodity c);
 	

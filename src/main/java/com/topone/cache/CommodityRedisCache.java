@@ -17,6 +17,7 @@ public class CommodityRedisCache implements Cache {
 	private static Logger logger = LoggerFactory.getLogger(CommodityRedisCache.class);
 	private Jedis redisClient = createReids();
 	/** The ReadWriteLock. */
+	private static JedisPool jedisPool = new JedisPool("45.76.216.116");
 	private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
 	private String id;
@@ -37,24 +38,24 @@ public class CommodityRedisCache implements Cache {
 	@Override
 	public int getSize() {
 
-		return Integer.valueOf(redisClient.dbSize().toString());
+		int i = Integer.valueOf(redisClient.dbSize().toString());
+		return i;
+
 	}
 
 	@Override
 	public void putObject(Object key, Object value) {
 		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>putObject:" + key + "=" + value);
-		System.out.println("set");
 		redisClient.set(SerializaUtil.serialize(this.getClass().getName() + key.toString()),
 				SerializaUtil.serialize(value));
-		redisClient.expire(SerializaUtil.serialize(this.getClass().getName() + key.toString()), 70000);
 	}
 
 	@Override
 	public Object getObject(Object key) {
 		Object value = SerializaUtil
 				.unserialize(redisClient.get(SerializaUtil.serialize(this.getClass().getName() + key.toString())));
-		System.out.println("get");
 		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>getObject:" + key + "=" + value);
+
 		return value;
 	}
 
@@ -74,7 +75,6 @@ public class CommodityRedisCache implements Cache {
 	}
 
 	protected Jedis createReids() {
-		JedisPool jedisPool = new JedisPool("45.76.216.116");
 		return jedisPool.getResource();
 	}
 

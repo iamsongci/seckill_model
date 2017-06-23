@@ -16,9 +16,9 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 		<!-- 配置连接池属性 -->
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<property name="jdbcUrl"
-			value="jdbc:mysql://123.206.123.47:3306/seckill?useUnicode=true&amp;characterEncoding=utf-8" />
-		<property name="user" value="seckill" />
-		<property name="password" value="wangzi" />
+			value="jdbc:mysql://localhost:3306/seckill?useUnicode=true&amp;characterEncoding=utf-8" />
+		<property name="user" value="root" />
+		<property name="password" value="" />
 		<!-- <property name="driverClass" value="com.mysql.jdbc.Driver" /> <property 
 			name="jdbcUrl" value="jdbc:mysql://localhost:3306/seckill?useUnicode=true&amp;characterEncoding=utf-8" 
 			/> <property name="user" value="root" /> <property name="password" value="" 
@@ -29,7 +29,7 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 		<!-- 最小连接数 -->
 		<property name="minPoolSize" value="5" />
 		<!-- 关闭连接时，不关闭Commit -->
-		<property name="autoCommitOnClose" value="false" />
+		<property name="autoCommitOnClose" value="true" />
 		<!-- 连接满后等待时间 -->
 		<property name="checkoutTimeout" value="10000" />
 		<!-- 数据库连接尝试次数 -->

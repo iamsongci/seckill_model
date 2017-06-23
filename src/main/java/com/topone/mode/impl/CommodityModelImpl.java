@@ -12,7 +12,7 @@ public class CommodityModelImpl implements CommodityModel {
 	@Autowired
 	private CommodityDAO commodityDAO;
 
-	public Integer add(Commodity c) {
+	public int add(Commodity c) {
 		return this.commodityDAO.add(c);
 	}
 
