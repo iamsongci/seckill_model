@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.topone.cache.CommodityCache;
 import com.topone.dao.CommodityDAO;
 import com.topone.entry.Commodity;
 import com.topone.model.CommodityModel;
@@ -12,8 +13,9 @@ public class CommodityModelImpl implements CommodityModel {
 	@Autowired
 	private CommodityDAO commodityDAO;
 
-	public Integer add(Commodity c) {
+	private CommodityCache commoditycache;
 
+	public Integer add(Commodity c) {
 		return this.commodityDAO.add(c);
 	}
 
@@ -26,7 +28,13 @@ public class CommodityModelImpl implements CommodityModel {
 	}
 
 	public Commodity getById(int id) {
-		return this.commodityDAO.getById(id);
+
+		Commodity c=this.commoditycache.get(id);
+		if(c==null){
+			c=this.commodityDAO.getById(id);
+			this.commoditycache.add(c);
+		}
+		return c;
 	}
 
 	public List<Commodity> getByAll(int a, int b) {
@@ -34,7 +42,7 @@ public class CommodityModelImpl implements CommodityModel {
 	}
 
 	public Integer countByType(boolean type) {
-		int i=type?1:0;
+		int i = type ? 1 : 0;
 		return this.commodityDAO.countByType(i);
 	}
 
