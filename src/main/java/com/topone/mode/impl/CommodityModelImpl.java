@@ -13,7 +13,6 @@ public class CommodityModelImpl implements CommodityModel {
 	private CommodityDAO commodityDAO;
 
 	public Integer add(Commodity c) {
-
 		return this.commodityDAO.add(c);
 	}
 
@@ -26,6 +25,7 @@ public class CommodityModelImpl implements CommodityModel {
 	}
 
 	public Commodity getById(int id) {
+
 		return this.commodityDAO.getById(id);
 	}
 
@@ -34,7 +34,7 @@ public class CommodityModelImpl implements CommodityModel {
 	}
 
 	public Integer countByType(boolean type) {
-		int i=type?1:0;
+		int i = type ? 1 : 0;
 		return this.commodityDAO.countByType(i);
 	}
 
