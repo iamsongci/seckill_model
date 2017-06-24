@@ -14,12 +14,12 @@
 		<result property="price" column="price" />
 		<result property="status" column="status" />
 	</resultMap>
-	<cache eviction="LRU" flushInterval="60000"
-		type="com.topone.cache.CommodityRedisCache" />
+	<!-- <cache eviction="LRU" flushInterval="60000"
+		type="com.topone.cache.CommodityRedisCache" /> -->
 	<sql id="basisSql">
 		id,seller_id,picture,name,starttime,postage,price,status
 	</sql>
-	<select id="getByType" resultMap="CommodityMap" useCache="false">
+	<select id="getByType" resultMap="CommodityMap" >
 		select
 		<include refid="basisSql" />
 		from commodity where 1=1
@@ -73,7 +73,7 @@
 		</if>
 		where id=#{id}
 	</update>
-	<select id="getBySellerId" resultMap="CommodityMap" useCache="false">
+	<select id="getBySellerId" resultMap="CommodityMap">
 		select
 		<include refid="basisSql" />
 		from commodity where seller_id=#{sellerId}

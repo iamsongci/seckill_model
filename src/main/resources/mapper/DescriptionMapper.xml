@@ -8,8 +8,8 @@
 		<id property="commodityId" column="commodity_id" />
 		<result property="discription" column="description" />
 	</resultMap>
-	<cache eviction="LRU" flushInterval="60000"
-		type="com.topone.cache.DescriptionResdisCache" />
+	<!-- <cache eviction="LRU" flushInterval="60000" type="com.topone.cache.DescriptionResdisCache" 
+		/> -->
 	<select id="getById" resultMap="DescriptionMap">
 		select
 		commodity_id,description
