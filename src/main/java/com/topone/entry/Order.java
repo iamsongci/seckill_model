@@ -13,7 +13,7 @@ import java.util.Date;
 public class Order implements Serializable {
 
 	// ID
-	private Integer id;
+	private String id;
 	// 商品ID
 	private Integer commodityId;
 	// 商品數量
@@ -53,11 +53,11 @@ public class Order implements Serializable {
 		this.seller = seller;
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
