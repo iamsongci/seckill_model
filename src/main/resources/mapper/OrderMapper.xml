@@ -34,9 +34,9 @@
 	</select>
 	<insert id="add">
 		insert into orders
-		(commodity_id,quantum,seller_id,buyers_id,
+		(id,commodity_id,quantum,seller_id,buyers_id,
 		sum,address)values
-		(#{commodityId},#{quantum},#{sellerId},#{buyersId},#{sum},#{addess})
+		(#{id},#{commodityId},#{quantum},#{sellerId},#{buyersId},#{sum},#{addess})
 	</insert>
 	<update id="update">
 		update orders set order_status=#{orderStats}
