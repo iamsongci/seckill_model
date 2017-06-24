@@ -61,7 +61,7 @@ public class CommodityRedisCache implements Cache {
 
 	@Override
 	public Object removeObject(Object key) {
-		return redisClient.expire(SerializaUtil.serialize(key.toString()), 0);
+		return redisClient.expire(SerializaUtil.serialize(this.getClass().getName() + key.toString()), 0);
 	}
 
 	@Override
